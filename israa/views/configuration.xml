@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="plan_res_config_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="hr_recruitment.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='recruitment_process_div']" position="inside">
+                    <div class="row mt16 o_settings_container">
+                         <label for="number_of_days" string="number of days"/>
+                        <field name="number_of_days" />
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

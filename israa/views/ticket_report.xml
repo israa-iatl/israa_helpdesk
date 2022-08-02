@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.report" id="action_report_helpdesk">
+            <field name="name">Visit Report</field>
+            <field name="model">visit.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">israa.report_helpdesk_temp</field>
+            <field name="report_file">israa_custom.report_helpdesk_temp</field>
+            <!--        <field name="binding_model_id" ref="model_theft_wizard"/>-->
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <template id="report_helpdesk_temp">
+            <t t-call="web.html_container">
+                <div dir="ltr" class="article">
+                    <font style="font-family: 'Amiri', 'serif';">
+                        <h4 class="text-center">
+                            <strong>
+                                <br/>
+                                <span>Ticket Report</span>
+                            </strong>
+                        </h4>
+
+                          <t t-if="not state_tick">
+                            <table class="table table-condensed table-bordered" style="border: 1px solid black;">
+                                <thead>
+                                     <th>Name</th>
+                                    <th>Ticket</th>
+                                    <th>Time Submitted</th>
+                                    <th>Priority</th>
+                                    <th>Resolution Time</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                            <span>Total</span>
+                                        </td>
+                                        <t t-foreach="help_all" t-as="pro">
+
+                                            <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['name']"/>
+                                            </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['ticket_id']"/>
+                                             </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['time_submitted']"/>
+                                             </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['priority']"/>
+                                             </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['resolution_time']"/>
+                                            </td>
+                                        </t>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-if="state_tick">
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Ticket</th>
+                                    <th>Time Submitted</th>
+                                    <th>Priority</th>
+                                    <th>Resolution Time</th>
+                                </thead>
+                                <tbody>
+
+                                    <t t-foreach="help_details" t-as="pro">
+
+                                        <tr>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['name']"/>
+                                            </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['ticket_id']"/>
+                                             </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['time_submitted']"/>
+                                             </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['priority']"/>
+                                             </td>
+                                             <td class="text-center" colspan="1" style="border: 1px solid black;">
+                                                <span t-esc="pro['resolution_time']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <br/>
+
+                    </font>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
+

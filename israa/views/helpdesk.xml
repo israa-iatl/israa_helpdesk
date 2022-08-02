@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="ticket_view_form" model="ir.ui.view">
+            <field name="name">ticket_view_form</field>
+            <field name="model">hd.ticket</field>
+            <field name="arch" type="xml">
+                <form string="Teams">
+                    <header>
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,done,confirm,in progress,cancel"/>
+                        <button id="button_new" name="action_new" string="New"/>
+                        <button id="button_solve" name="action_solve" string="Solve" type="object"
+                                states="new,cancel,in progress"/>
+                        <button id="button_cancel" name="action_cancel" string=" Cancel" type="object"
+                                states="new,in progress,solve"/>
+                        <button id="button_in progress" name="action_in_progress" string=" In Progress" type="object"
+                                states="new,solve,cancel"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="ticket_id" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="description" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="team_id" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="assigned_to_id"
+                                       attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="priority" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                            </group>
+                            <group>
+                                <field name="time_submitted"
+                                       attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="tag_id" widget="many2many_tags"
+                                       options="{'color_field': 'color'}"
+                                       attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="host_type" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="server_url" context="{'host_type':'on-promise'}" widget="url"
+                                       attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"/>
+                                <field name="resolution_time"/>
+                            </group>
+
+                            <notebook>
+                                <page string="Customer Info">
+                                    <field name="customer_id"/>
+                                    <field name="customer_name"/>
+                                    <field name="customer_phone"/>
+                                    <field name="customer_email"/>
+                                </page>
+                            </notebook>
+
+                        </group>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="ticket_view_tree" model="ir.ui.view">
+            <field name="name">ticket_view_tree</field>
+            <field name="model">hd.ticket</field>
+            <field name="arch" type="xml">
+                <tree string="ticket_tree" multi_edit="1">
+                    <field name="state" optional="hide"/>
+                    <field name="name" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}" optional="show"/>
+                    <field name="ticket_id" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="show"/>
+                    <field name="description" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="show"/>
+                    <field name="team_id" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}" optional="show"/>
+                    <field name="assigned_to_id" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="show"/>
+                    <field name="priority" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}" optional="hide"/>
+                    <field name="customer_id" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="hide"/>
+                    <field name="customer_name" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="show"/>
+                    <field name="customer_phone" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="hide"/>
+                    <field name="customer_email" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="hide"/>
+                    <field name="time_submitted" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="hide"/>
+                    <field name="tag_id" widget="many2many_tags"
+                           options="{'color_field': 'color'}"
+                           attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}" optional="hide"/>
+                    <field name="host_type" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}"
+                           optional="show"/>
+                    <field name="server_url"
+                           attrs="{'readonly': [('state', 'in', ['cancel','solve'])]}" optional="hide"/>
+                    <!--                    context="{'host_type':'on-premise'}" -->
+                    <field name="resolution_time" attrs="{'readonly': [('state', 'in', ['cancel','solve'])]} "
+                           optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ticket_kanban" model="ir.ui.view">
+            <field name="name">ticket_view_kanban</field>
+            <field name="model">hd.ticket</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="customer_id"/>
+                    <field name="team_id"/>
+                    <field name="priority"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                        <field name="customer_id"/>
+                                        <field name="team_id"/>
+                                        <field name="priority"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="tickets12_action" model="ir.actions.act_window">
+            <field name="name">hd_ticket_action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hd.ticket</field>
+            <field name="view_mode">form,tree,kanban</field>
+        </record>
+        <!--        teams view-->
+        <record id="teams_view_form" model="ir.ui.view">
+            <field name="name">teams_view_form</field>
+            <field name="model">hd.team</field>
+            <field name="arch" type="xml">
+                <form string="teams_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="teams11_view_tree" model="ir.ui.view">
+            <field name="name">teams_view_tree</field>
+            <field name="model">hd.team</field>
+            <field name="arch" type="xml">
+                <tree string="teams_tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!--        teams action view-->
+        <record id="teams11_action" model="ir.actions.act_window">
+            <field name="name">Teams</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hd.team</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="custom_teams_id" name="Teams" parent="helpdesk.helpdesk_menu_config" action="teams11_action"
+                  sequence="2"/>
+        <!-- tickets menu  action -->
+        <menuitem id="tickets11_menu_id" name="Tickets Custom" parent="helpdesk.helpdesk_ticket_menu_main" sequence="11"
+                  action="tickets12_action"/>
+    </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="helpdesk_wizard_act_window" model="ir.actions.act_window">
+            <field name="name">Helpdesk Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">help.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <!--##########helpdesk_wizard_form############-->
+
+        <record id="helpdesk_wizard_form_view" model="ir.ui.view">
+            <field name="name">help.wizard.form</field>
+            <field name="model">help.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Tickets">
+                    <sheet>
+                        <group col="2">
+                            <group>
+                                <field name="team"/>
+                            </group>
+                            <group>
+                                <field name="state_tick"/>
+                                <field name="state" attrs="{'invisible': [('state_tick', '=', True)]}"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="generate_report" string="Print" type="object" class="btn-primary"
+                                    icon="fa-file-pdf-o"/>
+                            <button string="Cancel" class="btn-danger" special="cancel" icon="fa-close"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- wizard menu action -->
+        <menuitem id="ticket_wizard" name="Ticket Wizard" parent="helpdesk.helpdesk_ticket_report_menu_main"
+                  action="helpdesk_wizard_act_window"/>
+    </data>
+</odoo>

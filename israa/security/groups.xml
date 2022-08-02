@@ -1,0 +1,31 @@
+<odoo>
+    <data noupdate="1">
+        <record model="ir.module.category" id="helpdesk_ticket-group">
+            <field name="name">Group Category</field>
+            <field name="description">Define Access Rights</field>
+            <field name="sequence">35</field>
+        </record>
+
+        <!--user group-->
+        <record id="helpdesk_ticket_leader" model="res.groups">
+            <field name="name">Team Leader</field>
+            <field name="category_id" ref="helpdesk_ticket-group"/>
+        </record>
+
+         <!--Engineer group-->
+        <record id="helpdesk_ticket_engineer" model="res.groups">
+            <field name="name">Engineer</field>
+            <field name="category_id" ref="helpdesk_ticket-group"/>
+        </record>
+
+
+        <!--Manager Group-->
+
+        <record id="helpdesk_ticket_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="helpdesk_ticket-group"/>
+        </record>
+
+    </data>
+</odoo>
+
